@@ -6,7 +6,7 @@ extends Node2D
 @onready var camera_2d: Camera2D = $Camera2D
 
 func _ready() -> void:
-	background.queue_free()
+	background.queue_free() # Server should not show background. Because we say so.
 	
 	Network.message_received.connect(show_received_message_in_chat)
 	for msg in Network.messages:

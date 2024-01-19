@@ -92,7 +92,7 @@ func message_for_server(message: String) -> void:
 		for client_id in connected_peer_ids:
 			rpc_id(client_id, "message_for_client", sender_id, sender_name, message)
 		message_for_client(sender_id, sender_name, message)
-	
+
 @rpc("reliable")
 func message_for_client(sender_peer_id: int, sender_name: String, message: String) -> void:
 	var msg := ChatMessage.new()
