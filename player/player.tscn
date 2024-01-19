@@ -1,0 +1,59 @@
+[gd_scene load_steps=7 format=3 uid="uid://53bufroctap3"]
+
+[ext_resource type="Script" path="res://player/player.gd" id="1_d62u2"]
+[ext_resource type="PackedScene" uid="uid://b0ettsd4wsapc" path="res://frog/frog.tscn" id="2_8yqa4"]
+[ext_resource type="Script" path="res://player/PlayerInput.gd" id="3_tr8on"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_412jw"]
+radius = 18.0
+height = 98.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_crmn1"]
+properties/0/path = NodePath(".:username")
+properties/0/spawn = true
+properties/0/replication_mode = 0
+properties/1/path = NodePath(".:player_id")
+properties/1/spawn = true
+properties/1/replication_mode = 0
+properties/2/path = NodePath(".:sync_position")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+properties/3/path = NodePath(".:sync_rotation")
+properties/3/spawn = true
+properties/3/replication_mode = 2
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_gr2o4"]
+properties/0/path = NodePath("PlayerInput:velocity")
+properties/0/spawn = false
+properties/0/replication_mode = 2
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 2
+motion_mode = 1
+script = ExtResource("1_d62u2")
+
+[node name="Character" parent="." instance=ExtResource("2_8yqa4")]
+position = Vector2(-3, -148)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_412jw")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, -172)
+enabled = false
+
+[node name="NameLabel" type="Label" parent="."]
+offset_left = -100.0
+offset_top = -335.0
+offset_right = 100.0
+offset_bottom = -312.0
+text = "username"
+horizontal_alignment = 1
+
+[node name="PlayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_crmn1")
+
+[node name="PlayerInput" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_gr2o4")
+script = ExtResource("3_tr8on")

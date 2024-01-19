@@ -1,0 +1,31 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="MultiplayerPrototype"
+run/main_scene="res://menu/menu.tscn"
+config/features=PackedStringArray("4.2", "Forward Plus")
+config/icon="res://icon.svg"
+
+[autoload]
+
+Network="*res://network/network.gd"
+
+[display]
+
+window/size/viewport_width=960
+window/size/viewport_height=520
+window/size/initial_position_type=0
+
+[physics]
+
+2d/default_gravity=0.0
+2d/default_angular_damp=0.0

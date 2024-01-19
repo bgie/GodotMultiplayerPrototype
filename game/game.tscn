@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://drn7dly0o32on"]
+
+[ext_resource type="PackedScene" uid="uid://daijtj3uvll2a" path="res://background/background.tscn" id="1_c52te"]
+[ext_resource type="Script" path="res://game/game.gd" id="1_mbp0c"]
+
+[node name="Game" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_mbp0c")
+
+[node name="Background" parent="." instance=ExtResource("1_c52te")]
+
+[node name="PlayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://player/player.tscn")
+spawn_path = NodePath("../Players")
+spawn_limit = 4
+
+[node name="Players" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="AsteroidSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://objects/asteroid.tscn")
+spawn_path = NodePath("../Asteroids")
+
+[node name="Asteroids" type="Node2D" parent="."]
+y_sort_enabled = true

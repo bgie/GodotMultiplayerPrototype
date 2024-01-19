@@ -1,0 +1,123 @@
+[gd_scene load_steps=2 format=3 uid="uid://cc1rv2mny5f2d"]
+
+[ext_resource type="Script" path="res://menu/menu.gd" id="1_qsxte"]
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_qsxte")
+
+[node name="MainPanel" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HostButton" type="Button" parent="MainPanel"]
+layout_mode = 2
+text = "Host server"
+
+[node name="JoinButton" type="Button" parent="MainPanel"]
+layout_mode = 2
+text = "Join game"
+
+[node name="ExitButton" type="Button" parent="MainPanel"]
+layout_mode = 2
+text = "Exit"
+
+[node name="ConnectPanel" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -292.0
+offset_top = -50.5
+offset_right = 292.0
+offset_bottom = 50.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HostLabel" type="Label" parent="ConnectPanel"]
+layout_mode = 2
+text = "Host game"
+horizontal_alignment = 1
+
+[node name="JoinLabel" type="Label" parent="ConnectPanel"]
+visible = false
+layout_mode = 2
+text = "Join game"
+horizontal_alignment = 1
+
+[node name="Settings" type="GridContainer" parent="ConnectPanel"]
+layout_mode = 2
+columns = 2
+
+[node name="UrlLabel" type="Label" parent="ConnectPanel/Settings"]
+layout_mode = 2
+text = "Url"
+
+[node name="Url" type="LineEdit" parent="ConnectPanel/Settings"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+text = "127.0.0.1"
+
+[node name="PortLabel" type="Label" parent="ConnectPanel/Settings"]
+layout_mode = 2
+text = "Port"
+
+[node name="Port" type="LineEdit" parent="ConnectPanel/Settings"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+text = "9009"
+
+[node name="UsernameLabel" type="Label" parent="ConnectPanel/Settings"]
+layout_mode = 2
+text = "Username"
+
+[node name="Username" type="LineEdit" parent="ConnectPanel/Settings"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+text = "anonymous"
+
+[node name="Buttons" type="HBoxContainer" parent="ConnectPanel"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="ConnectButton" type="Button" parent="ConnectPanel/Buttons"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Connect"
+
+[node name="BackButton" type="Button" parent="ConnectPanel/Buttons"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+text = "Back"
+
+[node name="AutoConnectTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+autostart = true
+
+[connection signal="pressed" from="MainPanel/HostButton" to="." method="_on_host_button_pressed"]
+[connection signal="pressed" from="MainPanel/JoinButton" to="." method="_on_join_button_pressed"]
+[connection signal="pressed" from="MainPanel/ExitButton" to="." method="_on_exit_button_pressed"]
+[connection signal="pressed" from="ConnectPanel/Buttons/ConnectButton" to="." method="_on_connect_button_pressed"]
+[connection signal="pressed" from="ConnectPanel/Buttons/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="timeout" from="AutoConnectTimer" to="." method="_on_auto_connect_timer_timeout"]

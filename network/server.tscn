@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://c3lfxmut1gd5p"]
+
+[ext_resource type="Script" path="res://network/server.gd" id="1_cmqf4"]
+[ext_resource type="PackedScene" uid="uid://drn7dly0o32on" path="res://game/game.tscn" id="2_5ix0i"]
+
+[node name="Peer" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_cmqf4")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Chat" type="RichTextLabel" parent="CanvasLayer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bbcode_enabled = true
+scroll_following = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Game" parent="." instance=ExtResource("2_5ix0i")]
