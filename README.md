@@ -47,6 +47,28 @@ Om niet iedere keer meermaals te moeten klikken om de server op te zetten en cli
 - Het was een hoop geprul om de physics van de asteroide werkende te krijgen. De physics berekeningen mogen enkel op de server gebeuren, en het synchroniseren gebeurt via hulp-variabelen (zie commentaar in `asteroid.gd`). De meeste games hebben geen echte physics nodig.
 
 
+# Hoe werkt het?
+- Bij het starten van het programma wordt de auto-load `network.gd` eerst geladen.
+- `network.gd` maakt een variabele `var _multiplayer_peer := ENetMultiplayerPeer.new()`. ENet is een library die door Godot wordt gebruikt om netwerk verbindingen te maken voor multiplayer. Maar we verbinden nu nog niet.
+- `network.gd` zal dan `_enter_tree` uitvoeren waar we enkele signal verbindingen leggen, zodat later onze code wordt uitgevoerd bij bepaalde netwerk gebeurtenissen (events).
+- Hierbij gebruiken we `.multiplayer`, een eigenschap die _elke_ `node` heeft. Dit is de klasse van Godot zelf die multiplayer networking afhandeld. Deze klasse gaat later de `ENetMultiplayerPeer` klasse gebruiken om de verbinding zelf te maken, maar regelt ook een hoop andere dingen voor ons. Zie documentatie van [MultiplayerAPI](https://docs.godotengine.org/en/stable/classes/class_multiplayerapi.html)
+- Er wordt verder nog geen netwerk code uitgevoerd, we wachten gewoon.
+- Vervolgens wordt `menu.tscn` gestart en wordt er een venster getoond met een eenvoudige menu: 'host server', 'join game' of 'exit'.
+- Als we 'host server' kiezen krijgen we een tweede menu. Hier dienen we een URL in te geven en netwerk poort.
+- De URL is standaard ingevuld met `127.0.0.1`. Dit is een speciaal IP adres, de loopback, ofwel 'verbind met jezelf'. Dit is gemakkelijk om te testen.
+- De poortnummer is gekozen om geen conflict te hebben met andere software. Je browser gebruikt bijvoorbeeld `http` via poort `80`. De lijst van geregistreerde poort nummers vind je op [deze wikipedia pagina](https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers)
+- Klik je op de 'connect' knop in de menu, dan wordt `_on_connect_button_pressed` in `menu.gd` uitgevoerd.
+- Afhankelijk van de modus waar we in zitten (hebben we daarvoor op 'host server' of 'join game' geklikt) gaan we nu ofwel een server of client opzetten. 
+- De waardes voor de url en poort halen we uit de invulvakjes op het scherm.
+- `Network.start_server` zal de volgende stappen nemen:
+- de `ENetMultiplayer` die in `_multiplayer_peer` zit krijgt de url mee, en we starten een server op de gevraagde poort.
+- als het opzetten van de server gelukt is (de `if x == OK:`) gaan we verder, en anders geven we `false` terug en verlaten de functie.
+- is de verbinding gelukt, dan krijgt `multiplayer` van Godot deze verbinding mee om te gebruiken.
+- nu doen we een `internal_message`, wat een zelf geschreven functie is. We gebruiken het chat systeem om een message te tonen, maar deze message kwam niet van het netwerk, maar gewoon van onszelf. 
+- `Network.start_server` is klaar en zal `true` teruggeven als de server is opgezet.
+- Terug in `_on_connect_button_pressed` hebben we een `if` die het resultaat van `Network.start_server` gebruikt. Als de verbinding gelukt is, gaat de menu scene zichzelf volledig vervangen door de server scene (`res://network/server.tscn`).
+
+
 # Credits
 Background texture space by n4 https://opengameart.org/content/seamless-space-stars
 
